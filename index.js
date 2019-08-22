@@ -2,6 +2,7 @@
 
 function displayDog(responseJson) {
   console.log(responseJson);
+  $('.results').empty();
   //replace the existing image with the new one
   let image = responseJson.message;
   image.forEach(function(i) {
@@ -15,6 +16,7 @@ function displayDog(responseJson) {
   //)
   //display the results section
   $('.results').removeClass('hidden');
+ 
 }
 
 function getDogImage(num) {
