@@ -42,7 +42,14 @@ function getDogImage(num) {
 function watchForm() {
   $('.getNum').on('click', event => {
     let number = $('#number-of-dogs').val();
-    getDogImage(number);
+    if (number > 50){
+      $('.results').removeClass('hidden');
+      $('.results').empty();
+      $('.results').append(`<p>  Please enter a number between 1 and 50.</p>`);
+    }
+    else {  
+      getDogImage(number);
+    }
   });
 }
 
@@ -51,7 +58,6 @@ function watchSearch(){
   let breed = $('#breed-search').val();
   $('#breed-search').val('');
   console.log(breed);
-
   getBreed(breed);
   });
 }
