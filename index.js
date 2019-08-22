@@ -1,7 +1,6 @@
 'use strict';
 
 function displayDog(responseJson) {
-  console.log(responseJson);
   $('.results').empty();
   //replace the existing image with the new one
   let image = responseJson.message;
@@ -10,13 +9,28 @@ function displayDog(responseJson) {
       `<img src="${i}" class="results-img">`
     );
   });
-
-  // $('.results-img').replaceWith(
-  //   `<img src="${responseJson.message}" class="results-img">`
-  //)
-  //display the results section
   $('.results').removeClass('hidden');
- 
+}
+
+
+function displayBreed(responseJson) {
+  $('.results').empty();
+  if (responseJson.status === 'error'){
+    $('.results').append(`<p>  Please enter a valid dog breed.</p>`);
+  }
+  else {
+  //replace the existing image with the new one
+    $('.results').append(
+      `<img src="${responseJson.message}" class="results-img">`
+    );
+  }
+  $('.results').removeClass('hidden');
+}
+
+function getBreed(breed) {
+  fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+  .then(response => response.json())
+  .then(responseJson => displayBreed(responseJson));
 }
 
 function getDogImage(num) {
@@ -26,15 +40,23 @@ function getDogImage(num) {
 } 
 
 function watchForm() {
-  $('form').submit(event => {
-    event.preventDefault();
+  $('.getNum').on('click', event => {
     let number = $('#number-of-dogs').val();
-    console.log(number);
     getDogImage(number);
   });
 }
 
+function watchSearch(){
+  $('.search').on('click', function(event) { 
+  let breed = $('#breed-search').val();
+  $('#breed-search').val('');
+  console.log(breed);
+
+  getBreed(breed);
+  });
+}
+
 $(function() {
-  console.log('app loaded');
   watchForm();
+  watchSearch();
 });
